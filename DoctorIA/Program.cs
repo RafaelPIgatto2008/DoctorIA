@@ -3,9 +3,11 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 
-DependencyInjection.AddInfraestructure(builder.Services, builder.Configuration);
+DependencyInjection.AddInfraestructure(builder.Services);
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -18,30 +20,6 @@ builder.Services.AddSwaggerGen(options =>
         {
             Name = "Rafael Pigatto",
             Email = "rafaelrpigatto@gmail.com"
-        }
-    });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Insira o token JWT assim: Bearer {seu token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
         }
     });
 });
@@ -59,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.MapGet("/health", () => new { status = "ok", time = DateTime.UtcNow })
     .WithName("HealthCheck")

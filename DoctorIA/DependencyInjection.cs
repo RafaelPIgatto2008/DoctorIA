@@ -1,19 +1,13 @@
-﻿using DoctorIA.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using DoctorIA.Services;
 
 namespace DoctorIA;
 
 public class DependencyInjection()
 {
-    public static IServiceCollection AddInfraestructure(IServiceCollection services, 
-        IConfiguration configuration)
+    public static IServiceCollection AddInfraestructure(IServiceCollection services)
     {
-        // Connection string for DB
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DoctorDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            services.AddHttpClient<IServicesIa, ServiceIA>();
             
-        
             return services;
     }
 }

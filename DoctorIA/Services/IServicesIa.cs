@@ -4,6 +4,6 @@ namespace DoctorIA.Services;
 
 public interface IServicesIa
 {
-    Task<PatientRequest> GetPatientResumeById(Guid id, CancellationToken cancellationToken);
-    Task<ConsultationResult> GetConsultationResultById(Guid id, CancellationToken cancellationToken);
+    Task<string> GetDiagnosticsAsync(int userId, PatientRequest request, CancellationToken cancellationToken);
+    Task<string> GetHistoricAsync(int userId, CancellationToken cancellationToken);
 }
